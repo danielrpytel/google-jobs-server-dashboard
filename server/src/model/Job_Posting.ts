@@ -1,4 +1,4 @@
-import { Job_Posting_Data } from "../interface/Job_Posting_data";
+import { Job_Posting_Data } from "../interface/Job_Posting_Data";
 
 class Job_Posting implements Job_Posting_Data {
 	id: number;
@@ -8,7 +8,7 @@ class Job_Posting implements Job_Posting_Data {
 	description: string;
 	posting_url: string;
 	inserted_date: Date;
-	saved: boolean;
+	boosted: boolean;
 	applied: boolean;
 	flagged: boolean;
 	filtered?: boolean;
@@ -22,7 +22,7 @@ class Job_Posting implements Job_Posting_Data {
 		this.description = data.description;
 		this.posting_url = data.posting_url;
 		this.inserted_date = data.inserted_date;
-		this.saved = data.saved;
+		this.boosted = data.boosted;
 		this.applied = data.applied;
 		this.flagged = data.flagged;
 		this.filtered = data.filtered;

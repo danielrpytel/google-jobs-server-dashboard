@@ -6,7 +6,7 @@ export interface Job_Posting_Data {
 	description: string;
 	posting_url: string;
 	inserted_date: Date;
-	saved: boolean;
+	boosted: boolean;
 	applied: boolean;
 	flagged: boolean;
 	filtered?: boolean;
