@@ -3,6 +3,7 @@ import MySQLDatabase from "../db/MySQLDatabase";
 
 interface IJob_Posting_Repository {
 	retrieveAll(searchParams: { condition: string }): Promise<Job_Posting_Data[]>;
+	retrieveForFiltering(): Promise<Job_Posting_Data[]>;
 	update(id: number, data: Partial<Job_Posting_Data>): Promise<boolean>;
 	delete(id: number): Promise<boolean>;
 }
