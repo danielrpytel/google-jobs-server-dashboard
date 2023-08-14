@@ -7,6 +7,7 @@ router.get("/all", Job_Posting_Controller.getAllJobPostings);
 router.get("/boosted", Job_Posting_Controller.getBoostedJobPostings);
 router.get("/flagged", Job_Posting_Controller.getFlaggedJobPostings);
 router.get("/applied", Job_Posting_Controller.getAppliedJobPostings);
+router.get("/invoke-text-filter", Job_Posting_Controller.invokeFilter);
 
 router.put("/update/:id", Job_Posting_Controller.updateJobPosting);
 

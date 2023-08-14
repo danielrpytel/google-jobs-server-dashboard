@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { Job_Posting_Data } from "../interface/Job_Posting_Data";
 import Job_Posting_Repository from "../repository/Job_Posting_Repository";
 import MySQLDatabase from "../db/MySQLDatabase";
+import filterAndGradeText from "../utils/Text_Analysis";
 
 const database = MySQLDatabase.getInstance();
 const jobPostingRepository = new Job_Posting_Repository(database);
@@ -93,6 +93,40 @@ class Job_Posting_Controller {
 			res
 				.status(500)
 				.json({ error: "An error occured while deleting the job posting." });
+		}
+	}
+
+	static async invokeFilter(req: Request, res: Response) {
+		try {
+			const jobPostings = await jobPostingRepository.retrieveForFiltering();
+			const updatedJobPostings = [];
+
+			for (const posting of jobPostings) {
+				const condition = filterAndGradeText(
+					posting.description,
+					posting.title
+				);
+
+				const data: { [key: string]: boolean; filtered: boolean } = {
+					filtered: true,
+				};
+
+				if (condition === "boosted") {
+					data.boosted = true;
+				} else {
+					data.flagged = true;
+				}
+
+				const success = await jobPostingRepository.update(posting.id, data);
+
+				if (success) {
+					updatedJobPostings.push({ ...posting.id, ...data });
+				}
+			}
+			res.status(200).json(updatedJobPostings);
+		} catch (error) {
+			console.error(error);
+			res.status(500).send("Internal Server Error");
 		}
 	}
 }

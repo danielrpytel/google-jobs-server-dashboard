@@ -27,24 +27,38 @@ class Job_Posting_Repository implements IJob_Posting_Repository {
 		return this.db.query(query);
 	}
 
+	async retrieveForFiltering() {
+		const query: string =
+			"SELECT id, title, description, filtered FROM google_scraped_jobs WHERE filtered = 0";
+
+		const results = await this.db.query(query);
+		return results;
+	}
+
 	async update(id: number, data: Partial<Job_Posting_Data>): Promise<boolean> {
 		const fieldsToUpdate = Object.keys(data)
 			.map((key) => `${key} = ?`)
 			.join(", ");
 		const values = Object.values(data);
-		const query: string = `UPDATE google_scraped_jobs SET ${fieldsToUpdate} WHERE id = ?`;
 
-		try {
-			const result = await this.db.query(query, [...values, id]);
-			return Promise.resolve(result.affectedRows > 0);
-		} catch (error) {
-			console.error("Error updating job posting: ", error);
-			throw error;
+		if (fieldsToUpdate) {
+			const query: string = `UPDATE google_scraped_jobs SET ${fieldsToUpdate} WHERE id = ?`;
+
+			try {
+				const result = await this.db.query(query, [...values, id]);
+				return Promise.resolve(result.affectedRows > 0);
+			} catch (error) {
+				console.error("Error updating job posting: ", error);
+				throw error;
+			}
+		} else {
+			console.error("No fields to update.");
+			return Promise.resolve(false);
 		}
 	}
 
 	async delete(id: number): Promise<boolean> {
-		const query = `DELETE FROM google_scraped_jobs WHERE id = ?`;
+		const query: string = `DELETE FROM google_scraped_jobs WHERE id = ?`;
 
 		try {
 			const result = await this.db.query(query, [id]);

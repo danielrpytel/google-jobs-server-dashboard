@@ -9,6 +9,6 @@ export interface Job_Posting_Data {
 	boosted: boolean;
 	applied: boolean;
 	flagged: boolean;
-	filtered?: boolean;
+	filtered: boolean;
 	identifier: string;
 }

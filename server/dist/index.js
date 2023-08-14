@@ -9,6 +9,7 @@ const Job_Posting_Routes_1 = __importDefault(require("./routes/Job_Posting_Route
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
+app.use(express_1.default.json());
 app.use("/job-postings", Job_Posting_Routes_1.default);
 app.get("/", (req, res) => {
     res.send("Express + TypeScript Server");
