@@ -21,9 +21,8 @@ class Job_Posting_Controller {
     static getAllJobPostings(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const jobPostings = yield jobPostingRepository.retrieveAll({
-                    condition: "",
-                });
+                const id = Number(req.params.id);
+                const jobPostings = yield jobPostingRepository.retrieveAll(id);
                 res.status(200).json(jobPostings);
             }
             catch (error) {
@@ -32,10 +31,24 @@ class Job_Posting_Controller {
             }
         });
     }
+    static getPartialJobPostings(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const jobPostings = yield jobPostingRepository.retrievePartial({
+                    condition: "",
+                });
+                res.status(200).json(jobPostings);
+            }
+            catch (error) {
+                console.error(error);
+                res.status(500).send("Internal server Error");
+            }
+        });
+    }
     static getBoostedJobPostings(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const jobPostings = yield jobPostingRepository.retrieveAll({
+                const jobPostings = yield jobPostingRepository.retrievePartial({
                     condition: "boosted = 1",
                 });
                 res.status(200).json(jobPostings);
@@ -49,7 +62,7 @@ class Job_Posting_Controller {
     static getFlaggedJobPostings(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const jobPostings = yield jobPostingRepository.retrieveAll({
+                const jobPostings = yield jobPostingRepository.retrievePartial({
                     condition: "flagged = 1",
                 });
                 res.status(200).json(jobPostings);
@@ -63,7 +76,7 @@ class Job_Posting_Controller {
     static getAppliedJobPostings(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const jobPostings = yield jobPostingRepository.retrieveAll({
+                const jobPostings = yield jobPostingRepository.retrievePartial({
                     condition: "applied = 1",
                 });
                 res.status(200).json(jobPostings);

@@ -13,13 +13,20 @@ class Job_Posting_Repository {
     constructor(database) {
         this.db = database;
     }
-    retrieveAll(searchParams) {
-        let query = "SELECT * FROM google_scraped_jobs";
+    retrievePartial(searchParams) {
+        let query = "SELECT id, title, company_name, location, inserted_date, boosted, applied, flagged, filtered FROM google_scraped_jobs";
         let condition = searchParams.condition || "";
         if (condition) {
             query += " WHERE " + condition;
         }
         return this.db.query(query);
+    }
+    retrieveAll(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const query = "SELECT id, title, company_name, location, description, posting_url, inserted_date  FROM google_scraped_jobs WHERE id = ?";
+            const results = yield this.db.query(query, [id]);
+            return results;
+        });
     }
     retrieveForFiltering() {
         return __awaiter(this, void 0, void 0, function* () {

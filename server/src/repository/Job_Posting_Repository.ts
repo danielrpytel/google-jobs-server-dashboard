@@ -2,7 +2,7 @@ import { Job_Posting_Data } from "../interface/Job_Posting_Data";
 import MySQLDatabase from "../db/MySQLDatabase";
 
 interface IJob_Posting_Repository {
-	retrieveAll(searchParams: { condition: string }): Promise<Job_Posting_Data[]>;
+	retrieveAll(id: number): Promise<Job_Posting_Data>;
 	retrieveForFiltering(): Promise<Job_Posting_Data[]>;
 	update(id: number, data: Partial<Job_Posting_Data>): Promise<boolean>;
 	delete(id: number): Promise<boolean>;
@@ -15,10 +15,11 @@ class Job_Posting_Repository implements IJob_Posting_Repository {
 		this.db = database;
 	}
 
-	retrieveAll(searchParams: {
+	retrievePartial(searchParams: {
 		condition?: string;
 	}): Promise<Job_Posting_Data[]> {
-		let query: string = "SELECT * FROM google_scraped_jobs";
+		let query: string =
+			"SELECT id, title, company_name, location, inserted_date, boosted, applied, flagged, filtered FROM google_scraped_jobs";
 		let condition: string = searchParams.condition || "";
 
 		if (condition) {
@@ -26,6 +27,13 @@ class Job_Posting_Repository implements IJob_Posting_Repository {
 		}
 
 		return this.db.query(query);
+	}
+
+	async retrieveAll(id: number): Promise<Job_Posting_Data> {
+		const query: string =
+			"SELECT id, title, company_name, location, description, posting_url, inserted_date  FROM google_scraped_jobs WHERE id = ?";
+		const results = await this.db.query(query, [id]);
+		return results;
 	}
 
 	async retrieveForFiltering() {

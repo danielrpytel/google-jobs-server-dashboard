@@ -9,9 +9,8 @@ const jobPostingRepository = new Job_Posting_Repository(database);
 class Job_Posting_Controller {
 	static async getAllJobPostings(req: Request, res: Response) {
 		try {
-			const jobPostings = await jobPostingRepository.retrieveAll({
-				condition: "",
-			});
+			const id = Number(req.params.id);
+			const jobPostings = await jobPostingRepository.retrieveAll(id);
 			res.status(200).json(jobPostings);
 		} catch (error) {
 			console.error(error);
@@ -19,9 +18,21 @@ class Job_Posting_Controller {
 		}
 	}
 
+	static async getPartialJobPostings(req: Request, res: Response) {
+		try {
+			const jobPostings = await jobPostingRepository.retrievePartial({
+				condition: "",
+			});
+			res.status(200).json(jobPostings);
+		} catch (error) {
+			console.error(error);
+			res.status(500).send("Internal server Error");
+		}
+	}
+
 	static async getBoostedJobPostings(req: Request, res: Response) {
 		try {
-			const jobPostings = await jobPostingRepository.retrieveAll({
+			const jobPostings = await jobPostingRepository.retrievePartial({
 				condition: "boosted = 1",
 			});
 			res.status(200).json(jobPostings);
@@ -33,7 +44,7 @@ class Job_Posting_Controller {
 
 	static async getFlaggedJobPostings(req: Request, res: Response) {
 		try {
-			const jobPostings = await jobPostingRepository.retrieveAll({
+			const jobPostings = await jobPostingRepository.retrievePartial({
 				condition: "flagged = 1",
 			});
 			res.status(200).json(jobPostings);
@@ -45,7 +56,7 @@ class Job_Posting_Controller {
 
 	static async getAppliedJobPostings(req: Request, res: Response) {
 		try {
-			const jobPostings = await jobPostingRepository.retrieveAll({
+			const jobPostings = await jobPostingRepository.retrievePartial({
 				condition: "applied = 1",
 			});
 			res.status(200).json(jobPostings);
