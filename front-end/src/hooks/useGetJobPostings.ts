@@ -15,7 +15,7 @@ export interface Job_Posting_Data {
 	identifier: string;
 }
 
-function useGetJobPostings<Job_Posting_Data>(endpoint: string) {
+export const useGetJobPostings = (endpoint: string) => {
 	const [data, setData] = useState<Job_Posting_Data[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -37,6 +37,4 @@ function useGetJobPostings<Job_Posting_Data>(endpoint: string) {
 	}, [endpoint]);
 
 	return { data, loading, error };
-}
-
-export default useGetJobPostings;
+};

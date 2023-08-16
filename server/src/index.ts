@@ -1,4 +1,5 @@
 import express, { Express, Request, Response } from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import Job_Posting_Routes from "./routes/Job_Posting_Routes";
 
@@ -6,6 +7,7 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 
+app.use(cors());
 app.use(express.json());
 app.use("/job-postings", Job_Posting_Routes);
 
