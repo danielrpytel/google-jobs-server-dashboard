@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
+import Nav from "./components/Nav";
 import { apiEndpoints } from "./api/apiConfig";
 import { ApiContextProvider, IApiContext } from "./hooks/useApiContext";
 
@@ -9,6 +10,7 @@ function App() {
 	};
 	return (
 		<ApiContextProvider value={contextValue}>
+			<Nav />
 			<Routes>
 				<Route path="/all" element={<Dashboard />} />
 				<Route path="/boosted" element={<Dashboard />} />

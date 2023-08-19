@@ -1,22 +1,8 @@
 import { useState, useEffect } from "react";
-
-export interface Job_Posting_Data {
-	id: number;
-	title: string;
-	company_name: string;
-	location: string;
-	description: string;
-	posting_url: string;
-	inserted_date: Date;
-	boosted: boolean;
-	applied: boolean;
-	flagged: boolean;
-	filtered: boolean;
-	identifier: string;
-}
+import { IList_Job_Posting } from "../interfaces/Job_Posting_data";
 
 export const useGetJobPostings = (endpoint: string) => {
-	const [data, setData] = useState<Job_Posting_Data[]>([]);
+	const [data, setData] = useState<IList_Job_Posting[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
@@ -24,7 +10,7 @@ export const useGetJobPostings = (endpoint: string) => {
 		async function fetchData() {
 			try {
 				const response = await fetch(endpoint);
-				const responseData = await response.json();
+				const responseData: IList_Job_Posting[] = await response.json();
 				setData(responseData);
 			} catch (error) {
 				setError("An error occured while fetching data");

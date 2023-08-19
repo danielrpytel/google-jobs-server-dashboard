@@ -22,7 +22,7 @@ const badKeywords = [
     "4 years",
     "5 years",
 ];
-const badTitle = ["Senior", "Sr.", "Sr", "II", "III"];
+const badTitle = ["Senior", "Sr.", "Sr", "II", "III", "Lead"];
 function filterAndGradeText(description, title) {
     // Check title for bad keywords;
     const hasBadTitleKeyword = badTitle.some((keyword) => title.toLocaleLowerCase().includes(keyword.toLowerCase()));

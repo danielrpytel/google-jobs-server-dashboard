@@ -20,7 +20,7 @@ const badKeywords: string[] = [
 	"4 years",
 	"5 years",
 ];
-const badTitle: string[] = ["Senior", "Sr.", "Sr", "II", "III"];
+const badTitle: string[] = ["Senior", "Sr.", "Sr", "II", "III", "Lead"];
 
 function filterAndGradeText(description: string, title: string): string {
 	// Check title for bad keywords;

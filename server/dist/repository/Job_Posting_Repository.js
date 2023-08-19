@@ -14,7 +14,7 @@ class Job_Posting_Repository {
         this.db = database;
     }
     retrievePartial(searchParams) {
-        let query = "SELECT id, title, company_name, location, inserted_date, boosted, applied, flagged, filtered FROM google_scraped_jobs";
+        let query = "SELECT id, title, company_name, location, inserted_date, filtered FROM google_scraped_jobs";
         let condition = searchParams.condition || "";
         if (condition) {
             query += " WHERE " + condition;

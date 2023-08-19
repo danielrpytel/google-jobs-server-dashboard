@@ -1,5 +1,6 @@
 import { useGetJobPostings } from "../hooks/useGetJobPostings";
 import { useApiContext } from "../hooks/useApiContext";
+import SideList from "../components/SideList";
 
 const Dashboard = () => {
 	const { endpoints } = useApiContext();
@@ -9,7 +10,7 @@ const Dashboard = () => {
 	const { data, loading, error } = useGetJobPostings(endpoint);
 	console.log(data);
 
-	return <div>Hello</div>;
+	return <SideList job_list_data={data} />;
 };
 
 export default Dashboard;
