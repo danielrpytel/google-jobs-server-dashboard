@@ -22,7 +22,7 @@ class Job_Posting_Repository implements IJob_Posting_Repository {
 		condition?: string;
 	}): Promise<Job_Posting_Data[]> {
 		let query: string =
-			"SELECT id, title, company_name, location, inserted_date, filtered FROM google_scraped_jobs";
+			"SELECT id, title, company_name, location, inserted_date, filtered FROM google_scraped_jobs ORDER BY id DESC";
 		let condition: string = searchParams.condition || "";
 
 		if (condition) {
