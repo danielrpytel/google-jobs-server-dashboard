@@ -5,6 +5,7 @@ export const useGetJobPostings = (endpoint: string) => {
 	const [data, setData] = useState<IList_Job_Posting[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [selectedJobId, setSelectedJobId] = useState<number | null>(null);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -12,8 +13,14 @@ export const useGetJobPostings = (endpoint: string) => {
 				const response = await fetch(endpoint);
 				const responseData: IList_Job_Posting[] = await response.json();
 				setData(responseData);
+
+				if (responseData.length > 0) {
+					setSelectedJobId(responseData[0].id);
+				}
+				console.log("In the Postings", selectedJobId);
 			} catch (error) {
 				setError("An error occured while fetching data");
+				console.log(error);
 			} finally {
 				setLoading(false);
 			}
@@ -22,5 +29,5 @@ export const useGetJobPostings = (endpoint: string) => {
 		fetchData();
 	}, [endpoint]);
 
-	return { data, loading, error };
+	return { data, loading, error, selectedJobId, setSelectedJobId };
 };

@@ -16,8 +16,12 @@ class Job_Posting_Repository {
     retrievePartial(searchParams) {
         let query = "SELECT id, title, company_name, location, inserted_date, filtered FROM google_scraped_jobs";
         let condition = searchParams.condition || "";
+        let order = " ORDER BY id DESC";
         if (condition) {
-            query += " WHERE " + condition;
+            query += " WHERE " + condition + order;
+        }
+        else {
+            query += order;
         }
         return this.db.query(query);
     }
