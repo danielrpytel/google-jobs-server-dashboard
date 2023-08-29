@@ -11,7 +11,6 @@ export const useGetJobDetails = (id: number | null) => {
 			if (!id) {
 				return;
 			}
-			console.log("In the Details", id);
 			const query: string = `http://localhost:1337/job-postings/all/${id}`;
 			const response = await fetch(query);
 			const responseData: IDetails_Job_Posting[] = await response.json();

@@ -9,7 +9,8 @@ const Dashboard = () => {
 	const path = window.location.pathname;
 	const category = path.slice(1) as keyof typeof endpoints;
 	const endpoint = endpoints[category];
-	const { data, loading, error, selectedJobId, setSelectedJobId } =
+
+	const { data, loading, error, selectedJobId, setSelectedJobId, refetchData } =
 		useGetJobPostings(endpoint);
 
 	const { jobDetails, loadingDetails, errorDetails } =
@@ -19,11 +20,16 @@ const Dashboard = () => {
 		setSelectedJobId(id);
 	};
 
+	const handleFilterComplete = () => {
+		refetchData();
+	};
+
 	return (
 		<div className="flex flex-row">
 			<SideList
 				job_list_data={data}
 				onJobPostingClick={handleJobPostingClick}
+				onFilterComplete={handleFilterComplete}
 			/>
 			{jobDetails ? (
 				<JobPostingDetails jobData={jobDetails} />

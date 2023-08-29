@@ -110,7 +110,7 @@ class Job_Posting_Controller {
 	static async invokeFilter(req: Request, res: Response) {
 		try {
 			const jobPostings = await jobPostingRepository.retrieveForFiltering();
-			const updatedJobPostings = [];
+			let totalChangedRows = 0;
 
 			for (const posting of jobPostings) {
 				const condition = filterAndGradeText(
@@ -131,10 +131,10 @@ class Job_Posting_Controller {
 				const success = await jobPostingRepository.update(posting.id, data);
 
 				if (success) {
-					updatedJobPostings.push({ ...posting.id, ...data });
+					totalChangedRows++;
 				}
 			}
-			res.status(200).json(updatedJobPostings);
+			res.status(200).json({ success: true, changedRows: totalChangedRows });
 		} catch (error) {
 			console.error(error);
 			res.status(500).send("Internal Server Error");

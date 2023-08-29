@@ -136,7 +136,7 @@ class Job_Posting_Controller {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const jobPostings = yield jobPostingRepository.retrieveForFiltering();
-                const updatedJobPostings = [];
+                let totalChangedRows = 0;
                 for (const posting of jobPostings) {
                     const condition = (0, Text_Analysis_1.default)(posting.description, posting.title);
                     const data = {
@@ -150,10 +150,10 @@ class Job_Posting_Controller {
                     }
                     const success = yield jobPostingRepository.update(posting.id, data);
                     if (success) {
-                        updatedJobPostings.push(Object.assign(Object.assign({}, posting.id), data));
+                        totalChangedRows++;
                     }
                 }
-                res.status(200).json(updatedJobPostings);
+                res.status(200).json({ success: true, changedRows: totalChangedRows });
             }
             catch (error) {
                 console.error(error);
